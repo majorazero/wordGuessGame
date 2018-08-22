@@ -69,6 +69,19 @@ function randomWordOutput(){
     return "";
   }
 }
+
+//checks progress
+function checkProgress(gameArr){
+  for(let i =0; i < gameArr.length; i++){
+    if(gameArr[i] === undefined) {
+      console.log("hi");
+      return; //exits progress check if it catches undefined.
+    }
+  }
+  winCount++;
+  return;
+}
+
 //we'll push a word out of the bank
 let gameWord = randomWordOutput().toLowerCase(); //we're gonna do this so the game is not NOT case sensitive.
 let gameArray = new Array(gameWord.length);
@@ -96,7 +109,10 @@ document.onkeyup = function(event){
       }
     }
 
+    checkProgress(gameArray);
+
     //game should update document ONLY when all the data has been run through, so we put all that stuff at the end.
+    //remember it needs to be IN the onkeyup function since we need this to update everytime the game state changes
     document.getElementById("wins").textContent = winCount;
     document.getElementById("guessRemain").textContent = guessAttempts;
     document.getElementById("lettersGuessed").textContent = arrayToText(lettersGuessed);
