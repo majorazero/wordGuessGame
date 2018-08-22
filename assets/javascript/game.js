@@ -105,6 +105,6 @@ document.onkeyup = function(event){
       document.getElementById("loss").textContent = "YOU LOSE!";
     }
     document.getElementById("screen").innerHTML =
-    "<img class='img-fluid' src='assets/images/"+gameWord+".jpeg'>";
+    "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
   }
 };
