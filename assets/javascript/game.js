@@ -129,6 +129,7 @@ document.onkeyup = function(event){
     document.getElementById("word").textContent = gameArrayToText(gameArray);
     if(guessAttempts === 0 ){ //you lose if guessAttempts reaches 0
       document.getElementById("loss").textContent = "YOU LOSE!";
+      document.getElementById("retry").innerHTML = "<button>Try Again?</button>";
     }
     document.getElementById("screen").innerHTML =
     "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
