@@ -79,7 +79,17 @@ function checkProgress(gameArr){
     }
   }
   winCount++;
+  nextRound();
   return;
+}
+
+//resets round
+function nextRound(){
+  guessAttempts = 10; // reset guess attempts
+  lettersGuessed = []; //clears letters Guessed
+  gameWord = randomWordOutput().toLowerCase(); //pushes out a new word
+  gameArray = new Array(gameWord.length);
+  console.log(gameArray);
 }
 
 //we'll push a word out of the bank
