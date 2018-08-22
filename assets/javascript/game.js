@@ -1,21 +1,3 @@
-//Words (Names), we'll be guessing from.
-let wordBank = [
-  "Jaina",
-  "Arthas",
-  "Guldan",
-  "Maiev",
-  "Garrosh",
-  "Thrall",
-  "Anduin",
-  "Malfurion",
-  "Rexxar"
-];
-let winCount = 0;
-//this stuff should reset.
-let guessAttempts = 10; //default starting guess
-let lettersGuessed = []; // array for letters guessed so far.
-
-
 //rules:
 // 1. letters already guessed should not be able to be guessed again (on the same round)
 // 2. 10 guess attempt per word attempt
@@ -23,6 +5,38 @@ let lettersGuessed = []; // array for letters guessed so far.
 // 4. When the wordBank is empty, you get a secret win screen. game ends.
 // 5. If guess attempts run out and words not guess, game ends.
 
+function reset() {
+  wordBank = [ //refills wordBank
+    "Jaina",
+    "Arthas",
+    "Guldan",
+    "Maiev",
+    "Garrosh",
+    "Thrall",
+    "Anduin",
+    "Malfurion",
+    "Rexxar"
+  ];
+  winCount = 0;
+  guessAttempt = 10;
+  lettersGuessed = [];
+  document.getElementById("loss").textContent = "";
+  document.getElementById("retry").innerHTML = "";
+}
+//resets round
+function nextRound(){
+  roundDone = false; //the round is restarting, so it's not "done"
+  guessAttempts = 10; // reset guess attempts
+  lettersGuessed = []; //clears letters Guessed
+  gameWord = randomWordOutput().toLowerCase(); //pushes out a new word
+  gameArray = new Array(gameWord.length);
+  document.getElementById("next").innerHTML = "";
+  sDisplay();
+}
+function init(){ //initializes game
+  reset();
+  nextRound();
+}
 //I need to write a custom function to print out arrays for the doc
 function arrayToText(arr) {
   if(arr.length === 0){
@@ -74,33 +88,50 @@ function randomWordOutput(){
 function checkProgress(gameArr){
   for(let i =0; i < gameArr.length; i++){
     if(gameArr[i] === undefined) {
-      console.log("hi");
       return; //exits progress check if it catches undefined.
     }
   }
   winCount++;
-  nextRound();
+  roundDone = true; //round is over.
+  document.getElementById("next").innerHTML = "<button onclick='nextRound()'>Next?</button>";
   return;
 }
-
-//resets round
-function nextRound(){
-  guessAttempts = 10; // reset guess attempts
-  lettersGuessed = []; //clears letters Guessed
-  gameWord = randomWordOutput().toLowerCase(); //pushes out a new word
-  gameArray = new Array(gameWord.length);
-  console.log(gameArray);
+//handles image display
+function sDisplay(){
+  document.getElementById("wins").textContent = winCount;
+  document.getElementById("guessRemain").textContent = guessAttempts;
+  document.getElementById("lettersGuessed").textContent = arrayToText(lettersGuessed);
+  document.getElementById("word").textContent = gameArrayToText(gameArray);
+  if(guessAttempts === 0 ){ //shows loss screen if guess attempts reaches 0
+    roundDone = true;
+    document.getElementById("loss").textContent = "YOU LOSE!";
+    document.getElementById("retry").innerHTML = "<button onclick='init()'>Try Again?</button>";
+  }
+  document.getElementById("screen").innerHTML =
+  "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
 }
 
-//we'll push a word out of the bank
-let gameWord = randomWordOutput().toLowerCase(); //we're gonna do this so the game is not NOT case sensitive.
-let gameArray = new Array(gameWord.length);
-console.log(gameWord);
+
+//Words (Names), we'll be guessing from.
+let wordBank;
+let winCount = 0;
+//this stuff should reset.
+let guessAttempts = 10; //default starting guess
+let lettersGuessed = []; // array for letters guessed so far.
+let gameWord;
+let gameArray;
+let roundDone;
+reset();
+nextRound();
+// //we'll push a word out of the bank
+// let gameWord = randomWordOutput().toLowerCase(); //we're gonna do this so the game is not NOT case sensitive.
+// let gameArray = new Array(gameWord.length);
+
 
 
 //game basically starts when user tries to type in inputs
 document.onkeyup = function(event){
-  if (event.keyCode >= 65 && event.keyCode <= 90) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
+  if (event.keyCode >= 65 && event.keyCode <= 90 && roundDone === false) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
     console.log(gameWord);
     let pos = gameWord.indexOf(event.key.toLowerCase()); //position being checked
     if(pos === -1){ //if the input is NOT part of the word, position will return -1
@@ -121,17 +152,8 @@ document.onkeyup = function(event){
 
     checkProgress(gameArray);
 
-    //game should update document ONLY when all the data has been run through, so we put all that stuff at the end.
+    //game should update document when all the data has been run through, so we put all that stuff at the end.
     //remember it needs to be IN the onkeyup function since we need this to update everytime the game state changes
-    document.getElementById("wins").textContent = winCount;
-    document.getElementById("guessRemain").textContent = guessAttempts;
-    document.getElementById("lettersGuessed").textContent = arrayToText(lettersGuessed);
-    document.getElementById("word").textContent = gameArrayToText(gameArray);
-    if(guessAttempts === 0 ){ //you lose if guessAttempts reaches 0
-      document.getElementById("loss").textContent = "YOU LOSE!";
-      document.getElementById("retry").innerHTML = "<button>Try Again?</button>";
-    }
-    document.getElementById("screen").innerHTML =
-    "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
+    sDisplay();
   }
 };
