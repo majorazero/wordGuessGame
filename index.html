@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Guess that word.</title>
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <!-- title -->
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Hangman</h1>
+      </div>
+    </div>
+    <!-- content -->
+    <div class="row">
+      <!-- screen -->
+      <div class="col-md-6">
+        <div id="screen">Picture</div>
+      </div>
+      <!-- game board -->
+      <div class="col-md-6">
+        <h2>Press any key to get started!</h2>
+        <h2>Wins: <span id="wins"></span> </h2>
+        <h2><span id="word">_______(placeholder)</span></h2>
+        <h2>Number of guesses remaining: <span id="guessRemain"></span> </h2>
+        <h2>Letters already guessed: <span id="lettersGuessed"></span> </h2>
+        <h2><span id="loss"></span></h2>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<!-- JavaScript -->
+  <script
+      src="https://code.jquery.com/jquery-3.3.1.js"
+      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+      crossorigin="anonymous"></script>
+  <script src="assets/javascript/game.js"></script>
+</body>
+</html>
