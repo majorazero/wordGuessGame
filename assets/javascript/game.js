@@ -48,7 +48,12 @@ function gameArrayToText(arr){
       hText += " _ ";
     }
     else{
-      hText += arr[i];
+      if (i === 0){ //if its the first letter of the array we'll capitalize it.
+        hText += arr[i].toUpperCase();
+      }
+      else{
+        hText += arr[i];
+      }
     }
   }
   return hText;
@@ -64,25 +69,27 @@ function randomWordOutput(){
   }
 }
 //we'll push a word out of the bank
-let gameWord = randomWordOutput();
+let gameWord = randomWordOutput().toLowerCase(); //we're gonna do this so the game is not NOT case sensitive.
 let gameArray = new Array(gameWord.length);
 console.log(gameWord);
+
+
 //game basically starts when user tries to type in inputs
 document.onkeyup = function(event){
   if (event.keyCode >= 65 && event.keyCode <= 90) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
     console.log(gameWord);
-    let pos = gameWord.indexOf(event.key); //position being checked
+    let pos = gameWord.indexOf(event.key.toLowerCase()); //position being checked
     if(pos === -1){ //if the input is NOT part of the word, position will return -1
       guessAttempts--; //guessAttempt gets deducted by one
-      lettersGuessed.push(event.key); //letters guessed gets pushed into the list
+      lettersGuessed.push(event.key.toLowerCase()); //letters guessed gets pushed into the list
     }
     else { //only other possibility is that the letter DOES exist
-      gameArray[pos] = event.key;
+      gameArray[pos] = event.key.toLowerCase();
       while(pos != -1){ //run this until pos === -1, basically meanning it ran out of indexes to search for
         console.log(gameArray);
-        pos = gameWord.indexOf(event.key,pos+1); //we'll look for another position of the word beyond the first place we found it
+        pos = gameWord.indexOf(event.key.toLowerCase(),pos+1); //we'll look for another position of the word beyond the first place we found it
         if (pos != -1){ //if it found something again
-          gameArray[pos] = event.key; //it will fill in the next blank space
+          gameArray[pos] = event.key.toLowerCase(); //it will fill in the next blank space
         }
         //else nothing happens so we don't need to write the code, and if it ends of equaling -1, the while loop will end.
       }
