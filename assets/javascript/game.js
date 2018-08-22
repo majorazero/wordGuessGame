@@ -22,6 +22,7 @@ function reset() {
   lettersGuessed = [];
   document.getElementById("loss").textContent = "";
   document.getElementById("retry").innerHTML = "";
+  gameDone = false; //game just started
 }
 //resets round
 function nextRound(){
@@ -93,6 +94,10 @@ function checkProgress(gameArr){
   }
   winCount++;
   roundDone = true; //round is over.
+  if(wordBank.length === 0){ //you've won and the word bank is empty
+    gameDone = true;
+    return;
+  }
   document.getElementById("next").innerHTML = "<button onclick='nextRound()'>Next?</button>";
   return;
 }
@@ -107,8 +112,15 @@ function sDisplay(){
     document.getElementById("loss").textContent = "YOU LOSE!";
     document.getElementById("retry").innerHTML = "<button onclick='init()'>Try Again?</button>";
   }
-  document.getElementById("screen").innerHTML =
-  "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
+  if(gameDone === false){
+    document.getElementById("screen").innerHTML =
+    "<img class='img-fluid img-thumbnail' src='assets/images/"+gameWord+".jpeg'><h2 class='screen-title'>Who's this guy.</h2>";
+  }
+  else {
+    document.getElementById("screen").innerHTML =
+    "<img class='img-fluid img-thumbnail' src='assets/images/legend.jpeg'><h2 class='screen-title'>Damn, you nerd.</h2>";
+    document.getElementById("word").textContent = "YOU WIN!";
+  }
 }
 
 
@@ -120,6 +132,7 @@ let guessAttempts = 10; //default starting guess
 let lettersGuessed = []; // array for letters guessed so far.
 let gameWord;
 let gameArray;
+let gameDone;
 let roundDone;
 reset();
 nextRound();
@@ -134,7 +147,7 @@ document.onkeyup = function(event){
   if (event.keyCode >= 65 && event.keyCode <= 90 && roundDone === false) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
     console.log(gameWord);
     let pos = gameWord.indexOf(event.key.toLowerCase()); //position being checked
-    if(pos === -1){ //if the input is NOT part of the word, position will return -1
+    if(pos === -1 && lettersGuessed.indexOf(event.key) === -1){ //if the input is NOT part of the word, position will return -1; also we wont punish repeat guesses
       guessAttempts--; //guessAttempt gets deducted by one
       lettersGuessed.push(event.key.toLowerCase()); //letters guessed gets pushed into the list
     }
@@ -151,7 +164,6 @@ document.onkeyup = function(event){
     }
 
     checkProgress(gameArray);
-
     //game should update document when all the data has been run through, so we put all that stuff at the end.
     //remember it needs to be IN the onkeyup function since we need this to update everytime the game state changes
     sDisplay();
