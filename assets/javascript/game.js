@@ -59,6 +59,7 @@ function gameArrayToText(arr){
   return hText;
 }
 
+
 //pushes out a random word from the array
 function randomWordOutput(){
   if(wordBank.length != 0){
@@ -103,5 +104,7 @@ document.onkeyup = function(event){
     if(guessAttempts === 0 ){ //you lose if guessAttempts reaches 0
       document.getElementById("loss").textContent = "YOU LOSE!";
     }
+    document.getElementById("screen").innerHTML =
+    "<img class='img-fluid' src='assets/images/"+gameWord+".jpeg'>";
   }
 };
