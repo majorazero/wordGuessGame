@@ -143,7 +143,6 @@ let gameArray;
 let gameDone;
 let roundDone;
 reset();
-
 /**
 * This is the game, given that the correct key input and if round is not done,
 * it will checks if the letter pressed exists within the current chosen word.
