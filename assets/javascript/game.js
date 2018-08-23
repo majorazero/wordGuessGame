@@ -1,10 +1,6 @@
-//rules:
-// 1. letters already guessed should not be able to be guessed again (on the same round)
-// 2. 10 guess attempt per word attempt
-// 3. letters guessed should be reset with each new Words
-// 4. When the wordBank is empty, you get a secret win screen. game ends.
-// 5. If guess attempts run out and words not guess, game ends.
-
+/**
+* Resets overarching game parameters aka the word bank and the score.
+*/
 function reset() {
   wordBank = [ //refills wordBank
     "Jaina",
@@ -18,13 +14,14 @@ function reset() {
     "Rexxar"
   ];
   winCount = 0;
-  guessAttempt = 10;
-  lettersGuessed = [];
   document.getElementById("loss").textContent = "";
   document.getElementById("retry").innerHTML = "";
   gameDone = false; //game just started
+  nextRound();
 }
-//resets round
+/**
+* Resets game state between ROUNDS, its a smaller scope than reset()
+*/
 function nextRound(){
   roundDone = false; //the round is restarting, so it's not "done"
   guessAttempts = 10; // reset guess attempts
@@ -34,11 +31,12 @@ function nextRound(){
   document.getElementById("next").innerHTML = "";
   sDisplay();
 }
-function init(){ //initializes game
-  reset();
-  nextRound();
-}
-//I need to write a custom function to print out arrays for the doc
+
+/**
+* Returns a string that makes up the array. Used so HTML can understand.
+* Specifically its used to deal with the lettersGuessed component of the app.
+* @param {Array} arr The array of items, hopefully characters, to be stringified to a list.
+*/
 function arrayToText(arr) {
   if(arr.length === 0){
     return "No wrong guesses yet!";
@@ -54,8 +52,11 @@ function arrayToText(arr) {
   }
   return hText;
 }
-
-//Second array function for hangman array display
+/**
+* Returns a string for the HTML that represents the state of the word being guessed so far.
+* Replaces words not guessed yet as " _ "
+* @param {Array} arr The array used to respresent the letters guessed so far, for our app, this should only be gameArray
+*/
 function gameArrayToText(arr){
   let hText = "";
   for(let i=0; i <arr.length; i++){
@@ -73,9 +74,9 @@ function gameArrayToText(arr){
   }
   return hText;
 }
-
-
-//pushes out a random word from the array
+/**
+* Will randomly pick an index out of the word bank and return it. This also shrinks the word bank by one.
+*/
 function randomWordOutput(){
   if(wordBank.length != 0){
     return wordBank.splice(Math.floor(Math.random()*wordBank.length),1)[0];
@@ -84,8 +85,11 @@ function randomWordOutput(){
     return "";
   }
 }
-
-//checks progress
+/**
+* This will check to see if your gameArray is filled, which if it did, means you win that round.
+* Will also check if you won the game.
+* @param {Array} gameArr I'm not always consistent in how I name this, but this should only accept the game array.
+*/
 function checkProgress(gameArr){
   for(let i =0; i < gameArr.length; i++){
     if(gameArr[i] === undefined) {
@@ -101,7 +105,11 @@ function checkProgress(gameArr){
   document.getElementById("next").innerHTML = "<button onclick='nextRound()'>Next?</button>";
   return;
 }
-//handles image display
+/**
+* This handles how all the elements will get expresed in HTML.
+* It's only "smart" component is the one where it handles what image will get outputted depending on the word bank and winState.
+* It also determines loss.
+*/
 function sDisplay(){
   document.getElementById("wins").textContent = winCount;
   document.getElementById("guessRemain").textContent = guessAttempts;
@@ -110,7 +118,7 @@ function sDisplay(){
   if(guessAttempts === 0 ){ //shows loss screen if guess attempts reaches 0
     roundDone = true;
     document.getElementById("loss").textContent = "YOU LOSE!";
-    document.getElementById("retry").innerHTML = "<button onclick='init()'>Try Again?</button>";
+    document.getElementById("retry").innerHTML = "<button onclick='reset()'>Try Again?</button>";
   }
   if(gameDone === false){
     document.getElementById("screen").innerHTML =
@@ -120,15 +128,14 @@ function sDisplay(){
     document.getElementById("screen").innerHTML =
     "<img class='img-fluid img-thumbnail' src='assets/images/legend.jpeg'><h2 class='screen-title'>Damn, you nerd.</h2>";
     document.getElementById("word").textContent = "YOU WIN!";
-    document.getElementById("retry").innerHTML = "<button onclick='init()'>Play Again? ^_^</button>";
+    document.getElementById("retry").innerHTML = "<button onclick='reset()'>Play Again? ^_^</button>";
   }
 }
 
 
-//Words (Names), we'll be guessing from.
+//Declaring variables that we'll be using.
 let wordBank;
 let winCount = 0;
-//this stuff should reset.
 let guessAttempts = 10; //default starting guess
 let lettersGuessed = []; // array for letters guessed so far.
 let gameWord;
@@ -136,14 +143,14 @@ let gameArray;
 let gameDone;
 let roundDone;
 reset();
-nextRound();
-// //we'll push a word out of the bank
-// let gameWord = randomWordOutput().toLowerCase(); //we're gonna do this so the game is not NOT case sensitive.
-// let gameArray = new Array(gameWord.length);
 
-
-
-//game basically starts when user tries to type in inputs
+/**
+* This is the game, given that the correct key input and if round is not done,
+* it will checks if the letter pressed exists within the current chosen word.
+* If it is, it will cycle through and find all the positions where it exist, and apply them to a blank array that we
+* define with a length based on our current chosen word.
+* Afterwards, we'll check to see if the user won yet, and display the results to HTML.
+*/
 document.onkeyup = function(event){
   if (event.keyCode >= 65 && event.keyCode <= 90 && roundDone === false) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
     console.log(gameWord);
@@ -163,10 +170,7 @@ document.onkeyup = function(event){
         //else nothing happens so we don't need to write the code, and if it ends of equaling -1, the while loop will end.
       }
     }
-
     checkProgress(gameArray);
-    //game should update document when all the data has been run through, so we put all that stuff at the end.
-    //remember it needs to be IN the onkeyup function since we need this to update everytime the game state changes
     sDisplay();
   }
 };
