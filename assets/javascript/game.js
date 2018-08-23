@@ -152,7 +152,6 @@ reset();
 */
 document.onkeyup = function(event){
   if (event.keyCode >= 65 && event.keyCode <= 90 && roundDone === false) { //ensures that it will only accept letters as inputs. (NO MORE META OR SHIFT YEE)
-    console.log(gameWord);
     let pos = gameWord.indexOf(event.key.toLowerCase()); //position being checked
     if(pos === -1 && lettersGuessed.indexOf(event.key) === -1){ //if the input is NOT part of the word, position will return -1; also we wont punish repeat guesses
       guessAttempts--; //guessAttempt gets deducted by one
@@ -161,7 +160,6 @@ document.onkeyup = function(event){
     else { //only other possibility is that the letter DOES exist
       gameArray[pos] = event.key.toLowerCase();
       while(pos != -1){ //run this until pos === -1, basically meanning it ran out of indexes to search for
-        console.log(gameArray);
         pos = gameWord.indexOf(event.key.toLowerCase(),pos+1); //we'll look for another position of the word beyond the first place we found it
         if (pos != -1){ //if it found something again
           gameArray[pos] = event.key.toLowerCase(); //it will fill in the next blank space
