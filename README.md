@@ -1,17 +1,17 @@
 # wordGuessGame
 This is basically Hangman. Written with Javascript.
 
-#Opening the Page
+# Opening the Page
 - You can access the page with the following [link](https://majorazero.github.io/wordGuessGame/).
 
-#Game Rules
+# Game Rules
 - There are 9 different words you'll have to guess.
 - You get 10 guesses per word.
 - If you use up all your guesses, it ends the game!
 - Any input that are not letters, and letters already tried will not count towards guesses used.
-- If you manage to go through all 9, you'll get a special win screen. 
+- If you manage to go through all 9, you'll get a special win screen.
 
-#Built With
+# Built With
 - HTML
 - CSS
 - Bootstrap
