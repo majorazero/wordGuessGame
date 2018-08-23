@@ -3,11 +3,45 @@ h3 {
 }
 .screen-title{
   text-align: center;
+  background-color: #F4f4f4;
+  border-radius: 15px;
+  border: 6px dashed #c0b283;
+  padding: 10px;
+}
+.titleWrapper{
+  position: relative;
 }
 .title {
   font-size: 100px;
   text-align: center;
+  font-family: "Permanent Marker";
+}
+.subTitle {
+  z-index: 1;
+  position: absolute;
+  right: 19px;
+  bottom: 4px;
+  color: #f4f4f4;
+  text-shadow: 2px 4px #373737;
 }
 .col-md-6 {
   margin: auto;
+}
+.gameBoard {
+  background-color: #F4f4f4;
+  border-radius: 15px;
+  border: 6px solid #c0b283;
+  padding: 20px;
+}
+button {
+  padding: 15px;
+  border:  6px dashed #c0b283;
+  border-radius:  15px;
+  background-color: #F4F4F4;
+  color: #c0b283;
+}
+body {
+  background-color: #DCD0C0;
+  color: #373737;
+  font-family: Helvetica;
 }

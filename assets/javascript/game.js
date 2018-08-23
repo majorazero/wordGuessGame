@@ -41,7 +41,7 @@ function init(){ //initializes game
 //I need to write a custom function to print out arrays for the doc
 function arrayToText(arr) {
   if(arr.length === 0){
-    return "No Guesses Yet!";
+    return "No wrong guesses yet!";
   }
   let hText = "";
   for(let i =0; i < arr.length; i++){
@@ -120,6 +120,7 @@ function sDisplay(){
     document.getElementById("screen").innerHTML =
     "<img class='img-fluid img-thumbnail' src='assets/images/legend.jpeg'><h2 class='screen-title'>Damn, you nerd.</h2>";
     document.getElementById("word").textContent = "YOU WIN!";
+    document.getElementById("retry").innerHTML = "<button onclick='init()'>Play Again? ^_^</button>";
   }
 }
 
